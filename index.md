@@ -40,7 +40,7 @@ Hovering over a line shows the scope this line marks:
 
 ![image](https://cloud.githubusercontent.com/assets/873919/23745908/1478844a-04cb-11e7-8795-0efa75318faa.png)
 
-You can turn off the guild lines for all languages in the settings dialog:
+You can turn off the guide lines for all languages in the settings dialog:
 
 ![image](https://cloud.githubusercontent.com/assets/873919/23746093/c0f4f1a4-04cb-11e7-9c4c-e0f9773c7b40.png)
 

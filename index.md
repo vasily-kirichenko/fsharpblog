@@ -32,7 +32,7 @@ The search is now fuzzy, which means symbols are found even if you make typos, l
 
 ![image](https://cloud.githubusercontent.com/assets/873919/23745772/90a92764-04ca-11e7-8723-5807b4dc943b.png)
 
-It works a bit differenctly than JetBrance's one though.
+It works a bit differenctly than JetBrains' one though.
 
 ## Guide lines
 

@@ -62,6 +62,12 @@ and here:
 
 (use "User Types - Enums" to set color for discreminated unions)
 
+## Reference and load directives completion in scripts
+
+File system paths inside `#r` and `#load` directives support completion:
+
+![1](https://cloud.githubusercontent.com/assets/873919/23763382/65ace038-050a-11e7-8679-bbb23a7051e0.gif)
+
 ## Issues in RTW
 
 Due to the long Visual Studio stabilization phase, VS 2017 RTW includes a rather outdated Visual F# Tools version, which contains a number of bugs and performance issues:

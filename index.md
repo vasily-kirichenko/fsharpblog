@@ -85,3 +85,7 @@ All these (and many other) issues has been fixed in master branch, and some new 
 * Proper glyphs for extension methods
 
 ![image](https://cloud.githubusercontent.com/assets/873919/23749355/d7009086-04d8-11e7-965a-9460f2ea7031.png)
+
+* Completion glyphs reflect symbols accessibility
+
+![image](https://cloud.githubusercontent.com/assets/873919/23749771/ddc5c1fa-04da-11e7-9772-4fc0fb9860dd.png)

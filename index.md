@@ -60,7 +60,7 @@ and here:
 
 ![image](https://cloud.githubusercontent.com/assets/873919/23746313/891342da-04cc-11e7-92da-cb2c38fbc2c1.png)
 
-(use "User Types - Enums" to set color for discreminated unions)
+(use "User Types - Enums" to set color for discriminated unions)
 
 ## Reference and load directives completion in scripts
 

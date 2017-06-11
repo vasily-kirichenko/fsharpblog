@@ -152,7 +152,7 @@ fun selectRandom(f: List<Pair<Byte, Double>>): Byte {
         random(1.0) < f[n].second -> f[n].first
         else -> find(n - 1)
     }
-    return find(f.count() - 1)
+    return find(f.size - 1)
 }
 
 val width = 60
@@ -167,7 +167,7 @@ fun flush() {
 fun write(b: Byte) {
     buffer[index] = b
     index += 1
-    if (index == buffer.count()) flush()
+    if (index == buffer.size) flush()
 }
 
 fun write(c: Char) = write(c.toByte())
@@ -184,7 +184,7 @@ fun randomFasta(desc: String, table: List<Pair<Byte, Double>>, n: Int) {
 fun repeatFasta(desc: String, table: ByteArray, n: Int) {
     desc.toByteArray().forEach(::write)
     for (i in 1..n) {
-        write(table[(i - 1) % table.count()])
+        write(table[(i - 1) % table.size])
         if (i % width == 0) write('\n')
     }
     if (n % width != 0) write('\n')
@@ -192,13 +192,10 @@ fun repeatFasta(desc: String, table: ByteArray, n: Int) {
 
 fun main(args: Array<String>) {
     val n = args.firstOrNull()?.toIntOrNull() ?: 1000
-    System.nanoTime().let {
-        repeatFasta(">ONE Homo sapiens alu\n", alu, 2 * n)
-        randomFasta(">TWO IUB ambiguity codes\n", iub, 3 * n)
-        randomFasta(">THREE Homo sapiens frequency\n", homoSapiens, 5 * n)
-        flush()
-        println("${(System.nanoTime() - it) / 1E9}s elapsed")
-    }
+    repeatFasta(">ONE Homo sapiens alu\n", alu, 2 * n)
+    randomFasta(">TWO IUB ambiguity codes\n", iub, 3 * n)
+    randomFasta(">THREE Homo sapiens frequency\n", homoSapiens, 5 * n)
+    flush()
 }
 ``` 
 I've replaced the `fold` with a loop plus a couple of mutable variables for two 

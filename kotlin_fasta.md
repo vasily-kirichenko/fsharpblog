@@ -3,7 +3,7 @@
 Let's look at a small F# program ported to Kotlin. It's a [Fasta](https://benchmarksgame.alioth.debian.org/u64q/fasta-description.html#fasta)
 benchmark. The [current F# code](https://benchmarksgame.alioth.debian.org/u64q/program.php?test=fasta&lang=fsharpcore&id=1): 
 
-### F#
+### F##
 
 ```fsharp
 // The Computer Language Benchmarks Game

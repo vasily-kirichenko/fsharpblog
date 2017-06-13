@@ -12,15 +12,6 @@ from [Hopac repository](https://github.com/Hopac/Hopac) and translate it into Ko
 
 ```fsharp
 // Copyright (C) by Housemarque, Inc.
-
-module CounterActor
-
-open System
-open System.Diagnostics
-open Hopac
-open Hopac.Infixes
-open Hopac.Extensions
-
 let (^) x = (<|) x
 
 type Msg =
@@ -143,13 +134,9 @@ Output:
 8 *   300000 msgs =>  1074774 msgs/s
 8 *  3000000 msgs =>  1159185 msgs/s
 ```
-### Kotlin
+### Kotlin (plane actor)
 
 ```kotlin
-import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.channels.*
-import kotlin.system.measureTimeMillis
-
 sealed class Msg
 class Add(val n: Long) : Msg()
 class GetAndReset(val reply: SendChannel<Long>) : Msg()
@@ -206,7 +193,8 @@ Output:
 8 *   300000 msgs =>  1355167 msgs/s
 8 *  3000000 msgs =>  1316222 msgs/s
 ```
-The Kotlin code uses `actor` function that simplify things a bit. If you are curious
+
+This version code uses the `actor` function that simplify things a bit. If you are curious
 what such an actor would look like being implemented from scratch, this is it:
 
 ```fsharp
@@ -229,14 +217,88 @@ fun create(): Channel<Msg> {
 }
 ```
 
-As you can see, it looks almost the same (and shows the same performance). 
+
+### Kotlin (select from channels)
+
+```kotlin
+class Actor() {
+    private var state = 0L
+    private val addCh = Channel<Long>()
+    private val getAndResetCh = Channel<SendChannel<Long>>()
+
+    // expose `SendChannel`s because client code should not be able to receive our messages.
+    val add = addCh as SendChannel<Long>
+    val getAndReset = getAndResetCh as SendChannel<SendChannel<Long>>
+
+    init {
+        launch(CommonPool) {
+            while (true) {
+                select<Unit> {
+                    addCh.onReceive {
+                        state += it
+                    }
+                    getAndResetCh.onReceive {
+                        val was = state
+                        state = 0
+                        it.send(was)
+                    }
+                }
+            }
+        }
+    }
+}
+
+suspend fun Actor.getAndReset(): Long =
+    Channel<Long>().let {
+        getAndReset.send(it)
+        it.receive()
+    }
+
+suspend fun run(numPerThread: Int) {
+    val processorCount = Runtime.getRuntime().availableProcessors()
+
+    val elapsed = measureTimeMillis {
+        val actor = Actor()
+        (1..processorCount).map {
+            launch(CommonPool) {
+                for (n in 1..numPerThread) {
+                    select<Unit> {
+                        actor.add.onSend(100L) {}
+                        // just to show how timeouts can be added in composable way
+                        onTimeout(100) { println("Adding to the actor timed out!") }
+                    }
+                }
+                actor.getAndReset()
+            }
+        }.forEach { it.join() }
+    }
+    print("%d * %8d msgs => %8.0f msgs/s\n"
+        .format(processorCount, numPerThread, processorCount * numPerThread / (elapsed / 1000.0)))
+}
+
+fun main(args: Array<String>) = runBlocking {
+    for (n in listOf(300, 3_000, 30_000, 300_000, 3_000_000)) {
+        run(n)
+    }
+}
+```
+Output:
+```
+8 *      300 msgs =>    26966 msgs/s
+8 *     3000 msgs =>   156863 msgs/s
+8 *    30000 msgs =>   342857 msgs/s
+8 *   300000 msgs =>   776950 msgs/s
+8 *  3000000 msgs =>   763310 msgs/s
+```
 
 It's been awhile I used Hopac for the last time and almost forget how hard it is. I find 
 the Kotlin and `MailboxProcessor` versions tremendously easier to read and 
 it was a pleasure to write.
 
-So, Kotlin coroutines are ~3.6 times slower than Hopac and ~10% faster than `MailboxProcessor`
+So, Kotlin's actor is ~3.6 times slower than Hopac and ~10% faster than `MailboxProcessor`.
+`select` introduces significant overhead, it's ~40% slower than `actor`.
 
-In next articles I'll show how the interesting CML features (synchronizing on 
-sending and receiving to/from multiple channels) look like in Hopac and 
-Kotlin (bare bone F# does not have such functionality).
+<div style="text-align:center">
+<img src ="https://user-images.githubusercontent.com/873919/27082767-b3a661bc-504e-11e7-9b43-2c9ae17fe7d8.png"/>
+</div>
+

@@ -299,6 +299,6 @@ So, Kotlin's actor is ~3.6 times slower than Hopac and ~10% faster than `Mailbox
 `select` introduces significant overhead, it's ~40% slower than `actor`.
 
 <div style="text-align:center">
-<img src ="https://user-images.githubusercontent.com/873919/27082767-b3a661bc-504e-11e7-9b43-2c9ae17fe7d8.png"/>
+<img src ="https://user-images.githubusercontent.com/873919/27082900-3b1d8580-504f-11e7-8d31-8d0df9ecb7ee.png"/>
 </div>
 

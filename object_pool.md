@@ -1,4 +1,4 @@
-# Writing an objects pool with synchronous channels: F# vs Kotlin
+# Writing an object pool with synchronous channels: F# vs Kotlin
 
 ### F\#
 

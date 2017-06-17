@@ -6,9 +6,6 @@ computation, so we don't need messages to pack arguments to be able to send them
 to the actor. What's left? Just a function that spins up an async:
 
 ```fsharp
-open System
-open System.Threading
-
 let schedule<'a> (msg: 'a) (initialDelay: TimeSpan option) (delayBetween: TimeSpan option) (ct: CancellationToken) (receiver: 'a -> unit) =
     let computation = async {
         match initialDelay with
@@ -59,9 +56,6 @@ Quite a clean, easily readable code... yes?
 Let's port it into Kotlin.
 
 ```kotlin
-import kotlinx.coroutines.experimental.*
-import java.time.Duration
-
 suspend fun <T> schedule(ctx: CoroutineContext = CommonPool, msg: T, initialDelay: Duration? = null,
                          delayBetween: Duration? = null, receiver: (T) -> Unit): Job =
     launch(ctx) {

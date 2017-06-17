@@ -15,9 +15,9 @@ let schedule<'a> (msg: 'a) (initialDelay: TimeSpan option) (delayBetween: TimeSp
         | Some delay -> do! Async.Sleep (int delay.TotalMilliseconds)
         | _ -> ()
 
-        do! initialDelay
-            |> Option.map (fun delay -> Async.Sleep (int delay.TotalMilliseconds))
-            |> Option.defaultValue (async.Return())
+        match initialDelay with
+        | Some delay -> do! Async.Sleep (int delay.TotalMilliseconds)
+        | _ -> ()
 
         match delayBetween with
         | None -> if not ct.IsCancellationRequested then receiver msg

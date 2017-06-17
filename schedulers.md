@@ -1,8 +1,10 @@
 # Scheduler in F# and Kotlin
 
-Let's take a close look at [Agent Based Scheduler](http://www.fssnip.net/6c/title/Agent-Based-Scheduler),
-realize that it's super overcomplicated, we don't need an actor to start an async
-computation, so we don't need messages to pack arguments to be able to send them
+Let's explore Kotlin's coroutines a bit deeper. How is the cancellation done?
+
+Pull another victim from FsSnip site - [Agent Based Scheduler](http://www.fssnip.net/6c/title/Agent-Based-Scheduler),
+realize that it's super overcomplicated: we don't need an actor to start an async
+computation, so we don't need messages to pack arguments to send them
 to the actor. What's left? Just a function that spins up an async:
 
 ```fsharp

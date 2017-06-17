@@ -119,8 +119,8 @@ do! initialDelay
 but it does not make sense.
 * Here we use the `Job` returned by `launch` to cancel itself, which is not the same
 thing as passing `CancellationTokenSource` to the `schedule` function in F#. It's not
-needed in this case, but if we would like to cancel several `Job`s, I could create
-an empty `Job` and "mix" it into coroutine context; it overloads `+` operator, so
+needed in this case, but if we would like to cancel several `Job`s, we could create
+an empty `Job` and "mix" it into the coroutine context; it overloads `+` operator, so
 `CommonPool + aJob` means a context which runs computations in the common thread pool and
 uses the `aJob` as cancellation token source:
 

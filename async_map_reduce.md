@@ -72,7 +72,7 @@ val links = listOf(
     "http://www.cs.ukzn.ac.za/~hughm/ap/data/shakespeare/amsnd.txt"
     ...)
 
-// Wrap Fuel's continuation passing async API to coroutines.
+// Wrap Fuel's continuation passing async API to a coroutine.
 suspend fun download(url: String): String = suspendCoroutine { cont ->
     try {
         url.httpGet().timeout(5000).responseString { _, _, result ->

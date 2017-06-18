@@ -65,13 +65,6 @@ mapReduce mapF reduceF links
 ### Kotlin
 
 ```kotlin
-import com.github.kittinunf.fuel.httpGet
-import com.github.kittinunf.result.Result
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.runBlocking
-import kotlin.coroutines.experimental.suspendCoroutine
-
 val noiseWords = listOf("a", "about", "above", "all", "along" ...)
 
 val links = listOf(

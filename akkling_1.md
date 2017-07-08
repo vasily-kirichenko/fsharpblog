@@ -41,16 +41,13 @@ type StashingActor() as self =
             | _ -> ()
         | _ -> ()
 
-[<EntryPoint>]
-let main _ = 
-    let system = System.create "test" (Configuration.defaultConfig())
-    let a = system.ActorOf<StashingActor>()
-    a.Tell (Print "foo")
-    a.Tell (Print "bar")
-    a.Tell InitializationDone
-    a.Tell (Print "buzz")
-    Console.ReadKey() |> ignore
-    0
+let system = System.create "test" (Configuration.defaultConfig())
+let a = system.ActorOf<StashingActor>()
+
+a.Tell (Print "foo")
+a.Tell (Print "bar")
+a.Tell InitializationDone
+a.Tell (Print "buzz")
 
 ```
 
@@ -75,17 +72,11 @@ module rec StashingActor =
         | Print s -> printfn "Actually printing: %s" s |> ignored
         | _ -> unhandled()
 
-[<EntryPoint>]
-let main _ = 
-    let system = System.create "test" (Configuration.defaultConfig())
-    let a = spawnAnonymous system (props (actorOf2 StashingActor.initializing)) 
-    
-    
-    a <! Print "foo"
-    a <! Print "bar"
-    a <! InitializationDone
-    a <! Print "buzz"
-    
-    Console.ReadKey() |> ignore
-    0
+let system = System.create "test" (Configuration.defaultConfig())
+let a = spawnAnonymous system (props (actorOf2 StashingActor.initializing)) 
+
+a <! Print "foo"
+a <! Print "bar"
+a <! InitializationDone
+a <! Print "buzz"
 ```

@@ -1,4 +1,4 @@
-# Why ideomatic F# APIs are _good_ #1
+# Why idiomatic F# APIs are _good_ #1
 
 F# OOP code is not the most tidy one on the market, that's why having an ideomatic
 F# API gives a .NET library a great advantage. Let's take a look at how ugly Akka.NET

@@ -1,4 +1,4 @@
-# Why ideomatic F# APIs are _good_
+# Why ideomatic F# APIs are _good_ #1
 
 ### [Akka.NET](https://github.com/akkadotnet/akka.net) stashing actor
 
